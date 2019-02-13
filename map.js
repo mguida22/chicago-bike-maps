@@ -3,7 +3,8 @@ const chicagoBikeMap = () => {
   const MINUTE = SECOND * 60
   const DAY = MINUTE * 60 * 24
   const TIME_INTERVAL = 4 * MINUTE
-  const DISPLAY_INTERVAL = 200
+  const DISPLAY_INTERVAL = 400
+  const TICKER_INTERVAL = 100
 
   let stations = {}
   let trips = []
@@ -89,7 +90,7 @@ const chicagoBikeMap = () => {
 
   const startAnimation = () => {
     counter = 0
-    interval = window.setInterval(displayTrips, 50)
+    interval = window.setInterval(displayTrips, TICKER_INTERVAL)
   }
 
   fetch('./data/stations.json')
