@@ -107,11 +107,11 @@ const chicagoBikeMap = () => {
     }, TICKER_INTERVAL)
   }
 
-  fetch('./data/stations.json')
+  fetch('./public/stations.json')
     .then(data => data.json())
     .then(res => saveStations(res))
 
-  fetch('./data/trips-2018-12-07.json')
+  fetch('./public/trips-2018-12-07.json')
     .then(data => data.json())
     .then(res => {
       saveTrips(res)

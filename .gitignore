@@ -3,3 +3,4 @@ node_modules/
 divvy-data/
 *.json
 !package.json
+!public/*.json
