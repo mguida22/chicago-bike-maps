@@ -2,16 +2,17 @@ const chicagoBikeMap = () => {
   const SECOND = 1000
   const MINUTE = SECOND * 60
   const DAY = MINUTE * 60 * 24
-  const TIME_INTERVAL = 4 * MINUTE
+  const TIME_INTERVAL = 5 * MINUTE
   const DISPLAY_INTERVAL = 400
-  const TICKER_INTERVAL = 100
+  const TICKER_INTERVAL = 200
 
   let stations = {}
   let trips = []
   let counter = 0
   let interval = 0
 
-  const bikeMap = L.map('mapid').setView([41.87, -87.63], 11)
+  const timerElem = document.getElementById('time')
+  const bikeMap = L.map('mapid').setView([41.903, -87.632], 11)
 
   L.tileLayer(
     'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
@@ -77,9 +78,9 @@ const chicagoBikeMap = () => {
     let long = stations[trip.to_station_id].longitude
     let newMarker = L.circle([lat, long], {
       color: isStart ? 'green' : 'red',
-      opacity: 0.5,
+      opacity: 1.0,
       fillColor: isStart ? 'green' : 'red',
-      fillOpacity: 0.1,
+      fillOpacity: 0.5,
       radius: 50
     }).addTo(bikeMap)
 
@@ -88,9 +89,22 @@ const chicagoBikeMap = () => {
     }, DISPLAY_INTERVAL)
   }
 
+  const updateTime = () => {
+    let hours = Math.floor(counter / (MINUTE * 60)).toString()
+    let minutes = ((counter / MINUTE) % 60).toString()
+
+    hours = hours.length === 2 ? hours : `0${hours}`
+    minutes = minutes.length === 2 ? minutes : `0${minutes}`
+
+    timerElem.innerHTML = `${hours}:${minutes}`
+  }
+
   const startAnimation = () => {
     counter = 0
-    interval = window.setInterval(displayTrips, TICKER_INTERVAL)
+    interval = window.setInterval(() => {
+      displayTrips()
+      updateTime()
+    }, TICKER_INTERVAL)
   }
 
   fetch('./data/stations.json')
